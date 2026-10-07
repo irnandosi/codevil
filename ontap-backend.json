@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "storageDriverName": "ontap-san",
+  "managementLIF": "10.10.10.50",
+  "dataLIF": "192.168.100.10",
+  "svm": "harvester_svm",
+  "username": "admin",
+  "password": "YourPassword",
+  "igroupName": "harvester_igroup"
+}

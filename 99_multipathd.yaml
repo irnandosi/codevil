@@ -1,0 +1,39 @@
+apiVersion: node.harvesterhci.io/v1beta1
+kind: CloudInit
+metadata:
+  name: multipathd-config
+spec:
+  matchSelector: {}
+  filename: 99_multipathd.yaml
+  contents: |
+    stages:
+      network:
+        - name: "Configure multipath.conf"
+          files:
+            - path: /etc/multipath.conf
+              permissions: 0644
+              owner: 0
+              group: 0
+              content: |
+                defaults {
+                    find_multipaths no
+                    user_friendly_names yes
+                }
+                blacklist {
+                    device {
+                        vendor ".*"
+                        product ".*"
+                    }
+                }
+                blacklist_exceptions {
+                    device {
+                        vendor "NETAPP"
+                        product "LUN"
+                    }
+                }
+        - name: "Enable and start multipathd"
+          systemctl:
+            enable:
+              - multipathd
+            start:
+              - multipathd
